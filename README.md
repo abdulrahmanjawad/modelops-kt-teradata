@@ -1,0 +1,1 @@
+# modelops-kt-teradata

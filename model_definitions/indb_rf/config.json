@@ -1,0 +1,13 @@
+{
+    "hyperParameters": {
+        "scale_method":"RANGE",
+        "miss_value":"KEEP",
+        "global_scale": "False",
+        "multiplier":"1",
+        "intercept":"0",
+        "tree_type": "CLASSIFICATION",
+        "max_depth":"12",
+        "num_trees":"4"
+     }
+ }
+ 

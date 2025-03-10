@@ -1,0 +1,6 @@
+{
+    "id": "80d853dc-86cf-4813-9db7-9e48a0ed1b60",
+    "name": "In-DB RF",
+    "description": "In-DB RandomForest for Diabetes Prediction",
+    "language": "python"
+}

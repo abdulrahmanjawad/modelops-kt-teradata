@@ -70,7 +70,7 @@ def plot_roc_curve(roc_out, img_filename):
     auc = roc_out.result.to_pandas().reset_index()['AUC'][0]
     roc_results = roc_out.output_data.to_pandas()
     plt.plot(roc_results['fpr'], roc_results['tpr'],
-             color='darkorange', lw=2, label='ROC curve (AUC = %0.2f)' % 0.27)
+             color='darkorange', lw=2, label='ROC curve (AUC = %0.2f)' % auc)
     plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])

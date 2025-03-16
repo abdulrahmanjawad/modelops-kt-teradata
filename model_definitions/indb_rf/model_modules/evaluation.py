@@ -3,8 +3,7 @@ from teradataml import (
     DataFrame,
     copy_to_sql,
     ScaleTransform,
-    DecisionForestPredict,
-    ConvertTo,
+    TDDecisionForestPredict,
     ClassificationEvaluator,
     ROC
 )
@@ -107,25 +106,19 @@ def evaluate(context: ModelContext, **kwargs):
     )
 
     print("Evaluating...")
-    predictions = DecisionForestPredict(
+    predictions = TDDecisionForestPredict(
         object=model,
         newdata=scaled_test.result,
-        terms=target_name,
+        accumulate=target_name,
         id_column=entity_key,
         output_prob=True,
         output_responses=['0', '1']
     )
 
-    predicted_data = ConvertTo(
-        data=predictions.result,
-        target_columns=[target_name, 'Prediction'],
-        target_datatype=["INTEGER"]
-    )
-
     ClassificationEvaluator_obj = ClassificationEvaluator(
-        data=predicted_data.result,
+        data=predictions.result,
         observation_column=target_name,
-        prediction_column='Prediction',
+        prediction_column='prediction',
         num_labels=2
     )
 
@@ -147,15 +140,15 @@ def evaluate(context: ModelContext, **kwargs):
     with open(f"{context.artifact_output_path}/metrics.json", "w+") as f:
         json.dump(evaluation, f)
 
-    cm = confusion_matrix(predicted_data.result.to_pandas()[
-                          'HasDiabetes'], predicted_data.result.to_pandas()['Prediction'])
+    cm = confusion_matrix(predictions.result.to_pandas()[
+                          'HasDiabetes'], predictions.result.to_pandas()['prediction'])
 
     plot_confusion_matrix(
         cm, f"{context.artifact_output_path}/confusion_matrix")
 
     roc_out = ROC(
         data=predictions.result,
-        probability_column='Prob_1',
+        probability_column='prob_1',
         observation_column=target_name,
         positive_class='1',
         num_thresholds=1000
@@ -175,7 +168,7 @@ def evaluate(context: ModelContext, **kwargs):
         feature_importance = {}
 
     predictions_table = "predictions_tmp"
-    copy_to_sql(df=predicted_data.result, table_name=predictions_table,
+    copy_to_sql(df=predictions.result, table_name=predictions_table,
                 index=False, if_exists="replace", temporary=True)
 
     # calculate stats if training stats exist

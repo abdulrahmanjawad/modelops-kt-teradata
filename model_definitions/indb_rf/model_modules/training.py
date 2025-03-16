@@ -62,12 +62,11 @@ def train(context: ModelContext, **kwargs):
     # Extract and cast hyperparameters
     scale_method = str(context.hyperparams["scale_method"])
     miss_value = str(context.hyperparams["miss_value"])
-    global_scale = str(context.hyperparams["global_scale"]).lower() in ['true', '1']
+    global_scale = bool(context.hyperparams["global_scale"]).lower() in ['true', '1']
     multiplier = str(context.hyperparams["multiplier"])
     intercept = str(context.hyperparams["intercept"])
     tree_type = str(context.hyperparams["tree_type"])
-    max_depth = str(context.hyperparams["max_depth"])
-    num_trees = str(context.hyperparams["num_trees"])
+    max_depth = int(context.hyperparams["max_depth"])
     
     scaler = ScaleFit(
         data=train_df,
@@ -96,8 +95,7 @@ def train(context: ModelContext, **kwargs):
         input_columns=feature_names,
         response_column=target_name,
         model_type=tree_type,
-        max_depth=max_depth,
-        num_trees=num_trees   
+        max_depth=max_depth 
     )
 
     model.result.to_sql(

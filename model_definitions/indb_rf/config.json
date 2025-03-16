@@ -6,8 +6,7 @@
         "multiplier":"1",
         "intercept":"0",
         "tree_type": "CLASSIFICATION",
-        "max_depth":"12",
-        "num_trees":"4"
+        "max_depth":12
      }
  }
  

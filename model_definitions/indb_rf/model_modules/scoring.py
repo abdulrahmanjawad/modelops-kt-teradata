@@ -1,7 +1,7 @@
 from teradataml import (
     copy_to_sql,
     DataFrame,
-    DecisionForestPredict,
+    TDDecisionForestPredict,
     ScaleTransform
 )
 from aoa import (
@@ -38,7 +38,7 @@ def score(context: ModelContext, **kwargs):
     )
 
     print("Scoring...")
-    predictions = DecisionForestPredict(
+    predictions = TDDecisionForestPredict(
         object=model,
         newdata=scaled_test.result,
         id_column=entity_key,
@@ -47,7 +47,7 @@ def score(context: ModelContext, **kwargs):
     )
 
     predictions_pdf = predictions.result.to_pandas(all_rows=True).rename(
-        columns={"Prediction": target_name}).astype(int)
+        columns={"prediction": target_name}).astype(int)
 
     print("Finished Scoring")
 

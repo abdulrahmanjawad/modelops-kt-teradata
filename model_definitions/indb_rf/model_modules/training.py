@@ -94,7 +94,7 @@ def train(context: ModelContext, **kwargs):
         data=scaled_train.result,
         input_columns=feature_names,
         response_column=target_name,
-        model_type=tree_type,
+        tree_type=tree_type,
         max_depth=max_depth 
     )
 

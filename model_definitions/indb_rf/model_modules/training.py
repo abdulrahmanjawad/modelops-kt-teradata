@@ -62,7 +62,7 @@ def train(context: ModelContext, **kwargs):
     # Extract and cast hyperparameters
     scale_method = str(context.hyperparams["scale_method"])
     miss_value = str(context.hyperparams["miss_value"])
-    global_scale = bool(context.hyperparams["global_scale"]).lower() in ['true', '1']
+    global_scale = str(context.hyperparams["global_scale"]).lower() in ['true', '1']
     multiplier = str(context.hyperparams["multiplier"])
     intercept = str(context.hyperparams["intercept"])
     tree_type = str(context.hyperparams["tree_type"])
